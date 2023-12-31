@@ -14,6 +14,6 @@ public class FootballLeageDbContext : DbContext
             "Initial Catalog=FootballLeage_EfCore; " +
             "User ID=sa; " +
             "Password=!QAZxsw2; " +
-            "Ecrypt=False;");
+            "Encrypt=False;");
     }
 }
