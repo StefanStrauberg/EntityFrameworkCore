@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Data;
 
@@ -14,7 +15,10 @@ public class FootballLeageDbContext : DbContext
             "Initial Catalog=FootballLeage_EfCore; " +
             "User ID=sa; " +
             "Password=!QAZxsw2; " +
-            "Encrypt=False;");
+            "Encrypt=False;")
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors(); 
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
