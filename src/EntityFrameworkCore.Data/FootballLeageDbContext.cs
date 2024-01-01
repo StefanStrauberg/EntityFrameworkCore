@@ -16,4 +16,28 @@ public class FootballLeageDbContext : DbContext
             "Password=!QAZxsw2; " +
             "Encrypt=False;");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Team>().HasData(
+            new Team
+            {
+                TeamId = 1,
+                Name = "Tivoli Gardens F.C.",
+                CreatedDate = DateTimeOffset.UtcNow.DateTime
+            },
+            new Team
+            {
+                TeamId = 2,
+                Name = "Waterhouse F.C.",
+                CreatedDate = DateTimeOffset.UtcNow.DateTime
+            },
+            new Team
+            {
+                TeamId = 3,
+                Name = "Humble Lions F.C.",
+                CreatedDate = DateTimeOffset.UtcNow.DateTime
+            }
+        );
+    }
 }
