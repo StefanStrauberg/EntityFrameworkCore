@@ -1,8 +1,4 @@
-﻿using EntityFrameworkCore.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace EntityFrameworkCore.Data;
+﻿namespace EntityFrameworkCore.Data;
 
 public class FootballLeageDbContext : DbContext
 {
