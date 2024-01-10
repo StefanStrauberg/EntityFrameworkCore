@@ -26,8 +26,17 @@ await GetSingleOrDefaultTeamByExpressionAsync(context,
                                               team => team.TeamId == 2);
 
 // Select all records that meet a condition
+// WHERE [t].[Name] = N'Tivoli Gardens F.C.'
 await GetAllTeamsByExpressionAsync(context,
                                    team => team.Name == "Tivoli Gardens F.C.");
+
+// Select all records that meet a condition
+// WHERE [t].[Name] LIKE N'%F.C.%'
+await GetAllTeamsByExpressionAsync(context,
+                                   team => team.Name!.Contains("F.C."));
+// WHERE [t].[Name] LIKE N'%F.C.%'                                   
+await GetAllTeamsByExpressionAsync(context,
+                                   team => EF.Functions.Like(team.Name, "%F.C.%"));
 
 // static async Task GetFirstCoachAsync(FootballLeageDbContext context)
 // {
