@@ -9,12 +9,15 @@ Console.WriteLine("Hello to EntiryFramework Core");
 using var context = new FootballLeageDbContext()
                     ?? throw new ArgumentNullException(nameof(FootballLeageDbContext));
 
+Console.WriteLine(new string('-', 10) + "\tGet All Teams");
 GetAllTeams(context);
 Console.WriteLine(new string('-', 50));
 
+Console.WriteLine(new string('-', 10) + "\tGet First Team");
 await GetFirstTeamAsync(context);
 Console.WriteLine(new string('-', 50));
 
+Console.WriteLine(new string('-', 10) + "\tGet First Team By Epression team == 2");
 await GetFirstTeamByExpressionAsync(context, team => team.TeamId == 2);
 Console.WriteLine(new string('-', 50));
 
