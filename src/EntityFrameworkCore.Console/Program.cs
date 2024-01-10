@@ -11,7 +11,8 @@ await GetFirstTeamByExpressionAsync(context, team => team.TeamId == 2);
 
 // In this situation we'll get default value
 await GetFirstOrDefaultCoachAsync(context);
-await GetFirstOrDefaultTeamByExpressionAsync(context, team => team.TeamId == 2);
+await GetFirstOrDefaultTeamByExpressionAsync(context,
+                                             team => team.TeamId == 2);
 
 // In this situation we'll get exception - Sequence contains more than one element.
 // Because in the table stored many elements
@@ -19,8 +20,14 @@ await GetFirstOrDefaultTeamByExpressionAsync(context, team => team.TeamId == 2);
 
 // In this situation we'll get a record that meets a condition
 // Because in the table stored only one record that meets a condition
-await GetSingleTeamByExpressionAsync(context, team => team.TeamId == 2);
-await GetSingleOrDefaultTeamByExpressionAsync(context, team => team.TeamId == 2);
+await GetSingleTeamByExpressionAsync(context,
+                                     team => team.TeamId == 2);
+await GetSingleOrDefaultTeamByExpressionAsync(context,
+                                              team => team.TeamId == 2);
+
+// Select all records that meet a condition
+await GetAllTeamsByExpressionAsync(context,
+                                   team => team.Name == "Tivoli Gardens F.C.");
 
 // static async Task GetFirstCoachAsync(FootballLeageDbContext context)
 // {
@@ -44,6 +51,21 @@ await GetSingleOrDefaultTeamByExpressionAsync(context, team => team.TeamId == 2)
 //     Console.WriteLine(new string('-', 50));
 // }
 
+static async Task GetAllTeamsByExpressionAsync(FootballLeageDbContext context,
+                                               Expression<Func<Team, bool>> predicate)
+{
+    Console.WriteLine(new string('-', 10) + 
+        "\tSelect all records that meets a condition");
+    // SELECT [t].[TeamId], [t].[CreatedDate], [t].[Name]
+    // FROM [Teams] AS [t]
+    // WHERE [t].[Name] = N'Tivoli Gardens F.C.'
+    var teams = await context.Teams
+                             .Where(predicate)
+                             .ToListAsync();
+    PrintAllTeams(teams);
+    Console.WriteLine(new string('-', 50));
+}
+
 static async Task GetSingleTeamByExpressionAsync(FootballLeageDbContext context,
                                                  Expression<Func<Team, bool>> predicate)
 {
@@ -52,7 +74,8 @@ static async Task GetSingleTeamByExpressionAsync(FootballLeageDbContext context,
     // SELECT TOP(2) [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
     // WHERE [t].[TeamId] = 2
-    var team = await context.Teams.SingleAsync(predicate);
+    var team = await context.Teams
+                            .SingleAsync(predicate);
     PrintOneTeam(team);
     Console.WriteLine(new string('-', 50));
 }
@@ -65,7 +88,8 @@ static async Task GetSingleOrDefaultTeamByExpressionAsync(FootballLeageDbContext
     // SELECT TOP(2) [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
     // WHERE [t].[TeamId] = 2
-    var team = await context.Teams.SingleOrDefaultAsync(predicate);
+    var team = await context.Teams
+                            .SingleOrDefaultAsync(predicate);
     PrintOneTeam(team);
     Console.WriteLine(new string('-', 50));
 }
@@ -76,7 +100,8 @@ static async Task GetFirstOrDefaultCoachAsync(FootballLeageDbContext context)
         "\tSelect a first or default coache record");
     // SELECT TOP(1) [c].[Id], [c].[CreatedDate], [c].[Name]
     // FROM [Coaches] AS [c]
-    var coach = await context.Coaches.FirstOrDefaultAsync();
+    var coach = await context.Coaches
+                             .FirstOrDefaultAsync();
     PrintOneCoache(coach);
     Console.WriteLine(new string('-', 50));
 }
@@ -89,7 +114,8 @@ static async Task GetFirstOrDefaultTeamByExpressionAsync(FootballLeageDbContext 
     // SELECT TOP(1) [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
     // WHERE [t].[TeamId] = 2
-    var team = await context.Teams.FirstOrDefaultAsync(predicate);
+    var team = await context.Teams
+                            .FirstOrDefaultAsync(predicate);
     PrintOneTeam(team);
     Console.WriteLine(new string('-', 50));
 }
@@ -101,7 +127,8 @@ static void GetAllTeams(FootballLeageDbContext context)
         "\tSelect all team records");
     // SELECT [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
-    var teams = context.Teams.ToList();
+    var teams = context.Teams
+                       .ToList();
     PrintAllTeams(teams);
     Console.WriteLine(new string('-', 50));
 }
@@ -112,7 +139,8 @@ static async Task GetFirstTeamAsync(FootballLeageDbContext context)
         "\tSelect a first team record");
     // SELECT TOP(1) [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
-    var team = await context.Teams.FirstAsync();
+    var team = await context.Teams
+                            .FirstAsync();
     PrintOneTeam(team);
     Console.WriteLine(new string('-', 50));
 }
@@ -125,7 +153,8 @@ static async Task GetFirstTeamByExpressionAsync(FootballLeageDbContext context,
     // SELECT TOP(1) [t].[TeamId], [t].[CreatedDate], [t].[Name]
     // FROM [Teams] AS [t]
     // WHERE [t].[TeamId] = 2
-    var team = await context.Teams.FirstAsync(predicate);
+    var team = await context.Teams
+                            .FirstAsync(predicate);
     PrintOneTeam(team);
     Console.WriteLine(new string('-', 50));
 }
